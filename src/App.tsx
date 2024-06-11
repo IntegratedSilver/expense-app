@@ -1,52 +1,46 @@
-import { useState } from "react"
-import ExpenseList from "./expense-tracker/components/ExpenseList"
-import ExpenseFilter from "./expense-tracker/components/ExpenseFilter"
+import { useState } from "react";
+import ExpenseList from "./expense-tracker/components/ExpenseList";
+import ExpenseFilter from "./expense-tracker/components/ExpenseFilter";
 import ExpenseForm from "./expense-tracker/components/ExpenseForm";
 
+interface Expense {
+  id: number;
+  description: string;
+  amount: number;
+  category: string;
+}
 
-
-
-//comments
 const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [expenses, setExpenses] = useState<Expense[]>([]); 
 
-  //Create a useState to help us handle our selectedCategories
-  const [selectedCategory, setSelectedCategory] = useState('')
-  
-  const [dummyExpensesArray, setDummyExpensesArray] = useState([
-    {id: 1, description: 'aaa', amount: 10, category: 'Utilities'},
-    {id: 2, description: 'bbb', amount: 15, category: 'Entertainment'},
-    {id: 3, description: 'ccc', amount: 20, category: 'Food'},
-    {id: 4, description: 'ddd', amount: 25, category: 'Shopping'},
-    {id: 5, description: 'eee', amount: 16, category: 'Groceries'}
-  ])
-  
-  const handleDelete = (id:number) => {
-    setDummyExpensesArray(dummyExpensesArray.filter(expense => expense.id !== id));
-  }
+  const handleDelete = (id: number) => {
+    setExpenses(expenses.filter(expense => expense.id !== id));
+  };
 
-//create a variable with a ternary operator  we are going to use our selectedCategory as a boolean filter through our dummyExpensesArray
-const visibleExpense = selectedCategory ? dummyExpensesArray.filter(x => x.category === selectedCategory) : dummyExpensesArray;
+  const handleAddExpense = (newExpense: Omit<Expense, 'id'>) => {
+    const newId = expenses.length ? expenses[expenses.length - 1].id + 1 : 1;
+    setExpenses([...expenses, { id: newId, ...newExpense }]);
+  };
+
+  const visibleExpenses = selectedCategory 
+    ? expenses.filter(expense => expense.category === selectedCategory) 
+    : expenses;
 
   return (
     <>
-        <h1 className="text-center">Expense Tracker</h1>
-
-        <div className="m-5">
-          <ExpenseForm/>
-        </div>
-
-    <div className="m-5">
-        <ExpenseFilter onSelectCategory={category => setSelectedCategory(category)
-        }/>
-
-    </div>
-    <div className="m-5">
-        <ExpenseList expenses={visibleExpense} onDelete={handleDelete}/>
-
-    </div>
-
+      <h1 className="text-center">Expense Tracker</h1>
+      <div className="m-5">
+        <ExpenseForm onAddExpense={handleAddExpense} />
+      </div>
+      <div className="m-5">
+        <ExpenseFilter onSelectCategory={category => setSelectedCategory(category)} />
+      </div>
+      <div className="m-5">
+        <ExpenseList expenses={visibleExpenses} onDelete={handleDelete} />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

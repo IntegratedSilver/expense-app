@@ -32,7 +32,7 @@ const ExpenseList = ({expenses,onDelete}:ExpenseProps) => {
     <td>{expense.amount}</td>
     <td>{expense.category}</td>
     <td>
-      <button className="btn btn-outline-danger" onClick={() => onDelete(expense.id)}>Delete</button>
+      <button className="btn btn-outline-danger" onClick={() => onDelete(expense.id)}>Remove Item</button>
     </td>
   
   </tr>)} 
