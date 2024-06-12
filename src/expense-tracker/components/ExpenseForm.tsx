@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 
 const expenseSchema = z.object({
-  description: z.string().min(1, "Description is required").max(100, "Description is too long"),
+  description: z.string().min(1, "Description is required"),
   amount: z.number().min(0.01, "Amount must be greater than zero"),
   category: z.enum(["Utilities", "Entertainment", "Food", "Shopping", "Groceries"])
 });
@@ -34,7 +34,7 @@ const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
       </div>
       <div className="form-group">
         <label>Amount</label>
-        <input type="number" step="0.01" className="form-control" {...register("amount", { valueAsNumber: true })} />
+        <input type="number" className="form-control" {...register("amount", { valueAsNumber: true })} />
         {errors.amount && <p className="text-danger">{errors.amount.message}</p>}
       </div>
       <div className="form-group">

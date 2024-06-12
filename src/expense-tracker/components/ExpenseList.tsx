@@ -17,7 +17,7 @@ const ExpenseList = ({expenses,onDelete}:ExpenseProps) => {
 
   return (
     <>
-        <table className="table table-dark table-bordered">
+        <table className="table table-bordered">
   <thead>
     <tr>
       <th scope="col">Description</th>

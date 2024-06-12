@@ -11,20 +11,20 @@ interface Expense {
 }
 
 const App = () => {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [expenses, setExpenses] = useState<Expense[]>([]); 
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const handleDelete = (id: number) => {
-    setExpenses(expenses.filter(expense => expense.id !== id));
+    setExpenses(expenses.filter((expense) => expense.id !== id));
   };
 
-  const handleAddExpense = (newExpense: Omit<Expense, 'id'>) => {
+  const handleAddExpense = (newExpense: Omit<Expense, "id">) => {
     const newId = expenses.length ? expenses[expenses.length - 1].id + 1 : 1;
     setExpenses([...expenses, { id: newId, ...newExpense }]);
   };
 
-  const visibleExpenses = selectedCategory 
-    ? expenses.filter(expense => expense.category === selectedCategory) 
+  const visibleExpenses = selectedCategory
+    ? expenses.filter((expense) => expense.category === selectedCategory)
     : expenses;
 
   return (
@@ -34,13 +34,15 @@ const App = () => {
         <ExpenseForm onAddExpense={handleAddExpense} />
       </div>
       <div className="m-5">
-        <ExpenseFilter onSelectCategory={category => setSelectedCategory(category)} />
+        <ExpenseFilter
+          onSelectCategory={(category) => setSelectedCategory(category)}
+        />
       </div>
       <div className="m-5">
         <ExpenseList expenses={visibleExpenses} onDelete={handleDelete} />
       </div>
     </>
   );
-}
+};
 
 export default App;
